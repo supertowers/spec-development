@@ -2,15 +2,15 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | 1.1.0 |
+| **Version** | 1.0.0 |
 | **Status** | Active |
-| **Created** | 2026-02-04 |
-| **Updated** | 2026-03-30 |
+| **Created** | 2026-05-16 |
+| **Updated** | 2026-05-16 |
 | **Author** | Pablo López Torres / Alice Evergreen |
 
 ## Overview
 
-This document defines how to write acceptance tests for Teros using Gherkin syntax. Acceptance tests validate that the system meets the requirements defined in specifications.
+This document defines how to write acceptance tests using Gherkin syntax. Acceptance tests validate that the system meets the requirements defined in specifications.
 
 ### Why Gherkin?
 
@@ -979,15 +979,6 @@ Before marking tests as complete, verify:
 
 ---
 
-## Version History
-
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 1.0.0 | 2026-02-04 | Initial version | Alice Evergreen |
-| 1.1.0 | 2026-03-30 | Added BDD vs TDD section with user-facing/system-facing/unit test distinction and examples; updated Test Writer role to reflect ux.md reuse | Pablo / Nira |
-
----
-
 **Ready to write tests? Start with a spec and cover every acceptance criterion!** 🧪
 
 ---
@@ -996,4 +987,4 @@ Before marking tests as complete, verify:
 
 | Version | Date | Changes | Author |
 |---------|------|---------|--------|
-| 1.0.0 | 2026-05-16 | Initial version | Pablo López Torres |
+| 1.0.0 | 2026-05-16 | Initial version | Pablo López Torres / Alice Evergreen |

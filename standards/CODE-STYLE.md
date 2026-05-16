@@ -2,10 +2,10 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | 1.2.0 |
+| **Version** | 1.0.0 |
 | **Status** | Active |
-| **Created** | 2026-02-04 |
-| **Last Updated** | 2026-02-04 |
+| **Created** | 2026-05-16 |
+| **Updated** | 2026-05-16 |
 | **Author** | Pablo López Torres / Alice Evergreen |
 
 ## Overview

@@ -112,7 +112,7 @@ Development work is distributed across six specialized roles. These can be perfo
 
 ### 4. Test Writer 🧪
 
-**Primary Responsibility**: Produce the final executable acceptance tests from the spec and UX artifacts.
+**Primary Responsibility**: Produce the final acceptance tests from the spec and UX artifacts.
 
 **Key Activities**:
 - Reads the spec (Phase 1A) and, if it exists, the UX spec (Phase 1B)
@@ -136,6 +136,14 @@ Development work is distributed across six specialized roles. These can be perfo
 - Every acceptance criterion has at least one scenario
 - All scenarios are in Given-When-Then format
 - No scenario mentions implementation details
+
+**Note on executability**:
+
+`.feature` files are first and foremost **documentation**. A well-written `.feature` file lets any team member read it and know exactly what the system must do to satisfy an acceptance criterion — no tooling required.
+
+If the project has a Gherkin test runner configured (Cucumber.js, Vitest with Gherkin plugin, etc.), the same files become executable. Executability is a bonus, not a prerequisite. Write scenarios as if they will be read by a human; if they can also be run by a machine, even better.
+
+> **Rule**: never sacrifice clarity for machine-readability. A scenario that a human cannot understand is not a BDD scenario.
 
 ---
 
