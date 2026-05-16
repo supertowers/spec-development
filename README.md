@@ -1,8 +1,36 @@
-# How We Work — Engineering Standards
+# spec-development
 
-This directory contains our **project-agnostic engineering standards**. These apply to every project we build, regardless of stack, size, or team composition.
+> **A portable engineering system.** Drop it into any project and instantly have a shared language for how to spec, build, test, review, and ship software.
 
-Think of this as a portable skill set: import it into any project and you immediately have a shared language for how to spec, build, test, review, and ship software.
+---
+
+## What this is
+
+A self-contained set of standards, workflows, and templates that travels with your team across every project — regardless of stack, size, or composition.
+
+No opinions about your framework. No dependency on your toolchain. Just the process layer that sits above all of it.
+
+---
+
+## The three pillars
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                                                                     │
+│   SPEC             TEST              CODE                           │
+│                                                                     │
+│   Write what       Verify the        Implement                      │
+│   the system       spec is           until tests                    │
+│   must do.         satisfied.        pass.                          │
+│                                                                     │
+│   → spec.md        → .feature        → production                  │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+
+         The spec is the source of truth.
+         Tests validate the spec.
+         Code implements the spec.
+```
 
 ---
 
@@ -11,61 +39,88 @@ Think of this as a portable skill set: import it into any project and you immedi
 ```
 spec-development/
 │
-├── standards/                         ← Principles and rules (the "what")
-│   ├── ENGINEERING-PRINCIPLES.md      ← Core rules that govern every technical decision
-│   ├── CODE-STYLE.md                  ← TypeScript/JS code style (full reference)
-│   ├── CODE-STYLE-QUICK-REFERENCE.md  ← TL;DR version of CODE-STYLE.md
+├── standards/                         ← The rules (non-negotiable)
+│   ├── ENGINEERING-PRINCIPLES.md      ← 6 principles that prevent the most common bugs
+│   ├── CODE-STYLE-QUICK-REFERENCE.md  ← Code conventions at a glance
+│   ├── CODE-STYLE.md                  ← Full code style reference
 │   ├── TESTING.md                     ← BDD/Gherkin testing guide
-│   ├── DESIGN-PRINCIPLES.md           ← UI/UX design principles
-│   └── GLOSSARY.md                    ← Definitions of all terms used in this repo
+│   ├── DESIGN-PRINCIPLES.md           ← UI/UX design system
+│   └── GLOSSARY.md                    ← Every term, defined precisely
 │
-├── process/                           ← Workflows and procedures (the "how")
-│   ├── SPEC-DRIVEN-WORKFLOW.md        ← How to develop any feature (SDD)
+├── process/                           ← The workflow (how work gets done)
+│   ├── SPEC-DRIVEN-WORKFLOW.md        ← The full SDD lifecycle
 │   ├── SPEC-FORMAT.md                 ← How to write a spec
-│   ├── RUNBOOK-FORMAT.md              ← How to write a runbook
-│   └── WORKLOG-FORMAT.md              ← How to write a worklog
+│   ├── RUNBOOK-FORMAT.md              ← How to document a procedure
+│   └── WORKLOG-FORMAT.md              ← How to log work in progress
 │
 └── templates/                         ← Copy-paste starting points
-    ├── spec.md                        ← Blank spec template
-    ├── runbook.md                     ← Blank runbook template
-    ├── worklog.md                     ← Blank worklog template
+    ├── spec.md                        ← Blank spec
+    ├── runbook.md                     ← Blank runbook
+    ├── worklog.md                     ← Blank worklog
     └── specs-index.md                 ← Blank specs index for a new project
 ```
 
 ---
 
-## The Three Pillars
+## Reading order
 
-### 1. Spec-Driven Development
-Every feature starts with a spec. The spec is the source of truth. Tests validate the spec. Code implements the spec. → [`process/SPEC-DRIVEN-WORKFLOW.md`](./process/SPEC-DRIVEN-WORKFLOW.md)
+New here? Read in this order — each document builds on the previous one.
 
-### 2. Engineering Principles
-A small set of non-negotiable rules that prevent the most common classes of bugs and architectural drift. → [`standards/ENGINEERING-PRINCIPLES.md`](./standards/ENGINEERING-PRINCIPLES.md)
-
-### 3. Design Consistency
-UI and UX decisions follow a documented system so every surface feels intentional and coherent. → [`standards/DESIGN-PRINCIPLES.md`](./standards/DESIGN-PRINCIPLES.md)
-
----
-
-## Reading Order
-
-If you're new here, read in this order:
-
-1. **[`standards/ENGINEERING-PRINCIPLES.md`](./standards/ENGINEERING-PRINCIPLES.md)** — start here. These are the non-negotiable rules that govern every decision.
-2. **[`standards/GLOSSARY.md`](./standards/GLOSSARY.md)** — learn the vocabulary used across all documents.
-3. **[`process/SPEC-DRIVEN-WORKFLOW.md`](./process/SPEC-DRIVEN-WORKFLOW.md)** — understand the full development lifecycle before writing a single line of code.
-4. **[`process/SPEC-FORMAT.md`](./process/SPEC-FORMAT.md)** — learn how to write a spec correctly.
-5. **[`standards/CODE-STYLE-QUICK-REFERENCE.md`](./standards/CODE-STYLE-QUICK-REFERENCE.md)** — code conventions at a glance. See [`CODE-STYLE.md`](./standards/CODE-STYLE.md) for the full reference.
-6. **[`standards/TESTING.md`](./standards/TESTING.md)** — BDD/Gherkin testing guide.
-7. **[`standards/DESIGN-PRINCIPLES.md`](./standards/DESIGN-PRINCIPLES.md)** — only relevant if your feature has a UI.
-8. **[`process/RUNBOOK-FORMAT.md`](./process/RUNBOOK-FORMAT.md)** and **[`process/WORKLOG-FORMAT.md`](./process/WORKLOG-FORMAT.md)** — reference as needed when running procedures or logging work.
+| # | Document | Why |
+|---|----------|-----|
+| 1 | [`standards/ENGINEERING-PRINCIPLES.md`](./standards/ENGINEERING-PRINCIPLES.md) | The non-negotiable rules. Start here. |
+| 2 | [`standards/GLOSSARY.md`](./standards/GLOSSARY.md) | Learn the vocabulary before reading anything else. |
+| 3 | [`process/SPEC-DRIVEN-WORKFLOW.md`](./process/SPEC-DRIVEN-WORKFLOW.md) | Understand the full lifecycle before writing a line of code. |
+| 4 | [`process/SPEC-FORMAT.md`](./process/SPEC-FORMAT.md) | Learn how to write a spec correctly. |
+| 5 | [`standards/CODE-STYLE-QUICK-REFERENCE.md`](./standards/CODE-STYLE-QUICK-REFERENCE.md) | Code conventions at a glance. |
+| 6 | [`standards/TESTING.md`](./standards/TESTING.md) | BDD/Gherkin — how to write scenarios that actually work. |
+| 7 | [`standards/DESIGN-PRINCIPLES.md`](./standards/DESIGN-PRINCIPLES.md) | Only if your feature has a UI. |
+| 8 | [`process/RUNBOOK-FORMAT.md`](./process/RUNBOOK-FORMAT.md) · [`process/WORKLOG-FORMAT.md`](./process/WORKLOG-FORMAT.md) | Reference as needed. |
 
 ---
 
 ## How to use this in a new project
 
-1. Copy this directory into your project (or reference it as a shared resource)
-2. Read `standards/ENGINEERING-PRINCIPLES.md` — these are non-negotiable
+```bash
+# Option A — copy directly
+cp -r spec-development/ your-project/
+
+# Option B — git subtree
+git subtree add --prefix spec-development \
+  https://github.com/supertowers/spec-development master --squash
+```
+
+Then:
+
+1. Read `standards/ENGINEERING-PRINCIPLES.md` — these are non-negotiable
+2. Copy `templates/specs-index.md` → `docs/specs/README.md` and fill it in
 3. When starting a feature, follow `process/SPEC-DRIVEN-WORKFLOW.md`
 4. Use the templates in `templates/` as starting points
-5. Add project-specific docs alongside these (don't modify the standards themselves)
+5. Add project-specific docs alongside these — don't modify the standards themselves
+
+---
+
+## The six roles
+
+Every feature moves through six roles. One person can wear multiple hats.
+
+| Role | Phase | Responsibility |
+|------|-------|---------------|
+| 📋 **Spec Manager** | 1A | Writes and owns the spec. Source of truth. |
+| 🗺️ **UX Designer** | 1B | User journey + ASCII wireframes. *(UI features only)* |
+| 🎨 **UI Designer** | 1C | Static HTML/CSS prototype. *(UI features only)* |
+| 🧪 **Test Writer** | 2 | Acceptance tests in Gherkin. Documentation first. |
+| 👨‍💻 **Developer** | 3 | Implements until all tests pass. |
+| 🏗️ **Code Reviewer** | 4–5 | Architecture, coherence, no duplication. |
+
+---
+
+## Contributing
+
+Changes to these standards are rare, deliberate, and backward-compatible.
+
+See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for the full process.
+
+---
+
+*Built by Pablo López Torres & Alice Evergreen.*
