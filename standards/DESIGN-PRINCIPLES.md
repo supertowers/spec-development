@@ -253,3 +253,11 @@ We are **dark-first** for product interfaces. Landing pages and marketing surfac
 - [ ] All interactive elements are keyboard-accessible
 - [ ] Focus states are visible
 - [ ] Motion has purpose (every animation can be justified)
+
+---
+
+## Changelog
+
+| Version | Date | Changes | Author |
+|---------|------|---------|--------|
+| 1.0.0 | 2026-05-16 | Initial version | Pablo López Torres |

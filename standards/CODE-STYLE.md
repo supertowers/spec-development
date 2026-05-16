@@ -6,7 +6,7 @@
 | **Status** | Active |
 | **Created** | 2026-02-04 |
 | **Last Updated** | 2026-02-04 |
-| **Author** | Pablo / Alice |
+| **Author** | Pablo López Torres / Alice Evergreen |
 
 ## Overview
 
@@ -1637,3 +1637,11 @@ yarn lint
 ---
 
 **Consistency is key. Follow these guidelines and let Biome handle the rest!** 🎨
+
+---
+
+## Changelog
+
+| Version | Date | Changes | Author |
+|---------|------|---------|--------|
+| 1.0.0 | 2026-05-16 | Initial version | Pablo López Torres |

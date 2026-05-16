@@ -4,7 +4,7 @@
 |-------|-------|
 | **Version** | 1.0.0 |
 | **Status** | Active |
-| **Author** | Pablo López Torres |
+| **Author** | Pablo López Torres / Alice Evergreen |
 
 ---
 
@@ -199,3 +199,11 @@ const items = await db.items.find({ ownerId, type: 'document' })
 | Strict Interfaces | Required fields are required in types and validated at runtime. |
 | Data Writes Are Contracts | Validate shape before every write. No incomplete documents. |
 | Ownership Is Explicit | Every resource has an owner. Queries are always scoped. |
+
+---
+
+## Changelog
+
+| Version | Date | Changes | Author |
+|---------|------|---------|--------|
+| 1.0.0 | 2026-05-16 | Initial version | Pablo López Torres |

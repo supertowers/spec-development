@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | 1.2.0 |
+| **Version** | 1.0.0 |
 | **Status** | Active |
 | **Author** | Pablo López Torres / Alice Evergreen |
 
@@ -258,3 +258,11 @@ Each AC must:
 **Maintainability:**
 - [ ] Changelog is present
 - [ ] Status is set correctly
+
+---
+
+## Changelog
+
+| Version | Date | Changes | Author |
+|---------|------|---------|--------|
+| 1.0.0 | 2026-05-16 | Initial version | Pablo López Torres |

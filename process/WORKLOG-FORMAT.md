@@ -4,6 +4,7 @@
 |-------|-------|
 | **Version** | 1.0.0 |
 | **Status** | Active |
+| **Author** | Pablo López Torres / Alice Evergreen |
 
 ---
 
@@ -120,3 +121,11 @@ Description of what you did, decisions made, why.
 - Don't worry about polish. Bullet points, fragments, and informal language are fine.
 - Capture the dead ends. "We tried X and it didn't work because Y" is often the most valuable thing in a worklog.
 - Link to everything: specs, runbooks, commits, issues, conversations.
+
+---
+
+## Changelog
+
+| Version | Date | Changes | Author |
+|---------|------|---------|--------|
+| 1.0.0 | 2026-05-16 | Initial version | Pablo López Torres |

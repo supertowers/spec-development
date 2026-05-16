@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | 1.2.0 |
+| **Version** | 1.0.0 |
 | **Status** | Active |
 | **Author** | Pablo López Torres / Alice Evergreen |
 
@@ -323,33 +323,7 @@ Development work is distributed across six specialized roles. These can be perfo
 
 ### Specifications
 
-Location: `/docs/specs/` (organized by namespace/domain)
-
-```
-docs/specs/
-├── README.md                          # Index + dependency graph
-│
-├── core/                              # Core platform features (no UI)
-│   ├── authentication.md
-│   └── user-management.md
-│
-├── billing/                           # Features with UI → subdirectory
-│   └── subscription/
-│       ├── spec.md                    # Phase 1A: requirements + AC
-│       ├── ux.md                      # Phase 1B: user journey + wireframes
-│       └── ui/
-│           ├── prototype.html         # Phase 1C: static HTML prototype
-│           └── notes.md
-│
-└── ui/                                # Purely UI features
-    └── dashboard/
-        ├── spec.md
-        ├── ux.md
-        └── ui/
-            └── prototype.html
-```
-
-**Rule**: If a spec has no UX/UI artifacts, keep it as a single `.md` file. Only create a subdirectory when Phase 1B or 1C artifacts exist.
+For the full directory structure and naming conventions, see [`process/SPEC-FORMAT.md`](./SPEC-FORMAT.md#directory-structure).
 
 ### Acceptance Tests
 
@@ -429,3 +403,11 @@ Implementation complete:
 
 Action Required: Code review for architectural coherence.
 ```
+
+---
+
+## Changelog
+
+| Version | Date | Changes | Author |
+|---------|------|---------|--------|
+| 1.0.0 | 2026-05-16 | Initial version | Pablo López Torres |

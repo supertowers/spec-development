@@ -6,7 +6,7 @@
 | **Status** | Active |
 | **Created** | 2026-02-04 |
 | **Updated** | 2026-03-30 |
-| **Author** | Pablo / Alice / Nira |
+| **Author** | Pablo López Torres / Alice Evergreen |
 
 ## Overview
 
@@ -989,3 +989,11 @@ Before marking tests as complete, verify:
 ---
 
 **Ready to write tests? Start with a spec and cover every acceptance criterion!** 🧪
+
+---
+
+## Changelog
+
+| Version | Date | Changes | Author |
+|---------|------|---------|--------|
+| 1.0.0 | 2026-05-16 | Initial version | Pablo López Torres |

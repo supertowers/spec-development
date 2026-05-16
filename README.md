@@ -15,7 +15,7 @@ spec-development/
 │   ├── ENGINEERING-PRINCIPLES.md ← Core rules that govern every technical decision
 │   ├── CODE-STYLE.md             ← TypeScript/JS code style
 │   ├── TESTING.md                ← BDD/Gherkin testing guide
-│   └── DESIGN-SYSTEM.md          ← UI/UX design principles and tokens
+│   └── DESIGN-PRINCIPLES.md      ← UI/UX design principles
 │
 ├── process/                      ← Workflows and procedures (the "how")
 │   ├── SPEC-DRIVEN-WORKFLOW.md   ← How to develop any feature (SDD)
@@ -40,7 +40,21 @@ Every feature starts with a spec. The spec is the source of truth. Tests validat
 A small set of non-negotiable rules that prevent the most common classes of bugs and architectural drift. → [`standards/ENGINEERING-PRINCIPLES.md`](./standards/ENGINEERING-PRINCIPLES.md)
 
 ### 3. Design Consistency
-UI and UX decisions follow a documented system so every surface feels intentional and coherent. → [`standards/DESIGN-SYSTEM.md`](./standards/DESIGN-SYSTEM.md)
+UI and UX decisions follow a documented system so every surface feels intentional and coherent. → [`standards/DESIGN-PRINCIPLES.md`](./standards/DESIGN-PRINCIPLES.md)
+
+---
+
+## Reading Order
+
+If you're new here, read in this order:
+
+1. **[`standards/ENGINEERING-PRINCIPLES.md`](./standards/ENGINEERING-PRINCIPLES.md)** — start here. These are the non-negotiable rules that govern every decision.
+2. **[`process/SPEC-DRIVEN-WORKFLOW.md`](./process/SPEC-DRIVEN-WORKFLOW.md)** — understand the full development lifecycle before writing a single line of code.
+3. **[`process/SPEC-FORMAT.md`](./process/SPEC-FORMAT.md)** — learn how to write a spec correctly.
+4. **[`standards/CODE-STYLE.md`](./standards/CODE-STYLE.md)** — code conventions for TypeScript/JS.
+5. **[`standards/TESTING.md`](./standards/TESTING.md)** — BDD/Gherkin testing guide.
+6. **[`standards/DESIGN-PRINCIPLES.md`](./standards/DESIGN-PRINCIPLES.md)** — only relevant if your feature has a UI.
+7. **[`process/RUNBOOK-FORMAT.md`](./process/RUNBOOK-FORMAT.md)** and **[`process/WORKLOG-FORMAT.md`](./process/WORKLOG-FORMAT.md)** — reference as needed when running procedures or logging work.
 
 ---
 

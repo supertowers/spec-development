@@ -215,3 +215,11 @@ After execution, update the runbook with what actually happened. The runbook is 
 | **Low** | Fully reversible, no data loss risk, affects only non-critical systems |
 | **Medium** | Partially reversible or affects important systems; requires testing first |
 | **High** | Irreversible or affects production data; requires approval and backup |
+
+---
+
+## Changelog
+
+| Version | Date | Changes | Author |
+|---------|------|---------|--------|
+| 1.0.0 | 2026-05-16 | Initial version | Pablo López Torres |

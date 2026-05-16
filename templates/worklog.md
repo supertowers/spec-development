@@ -1,31 +1,33 @@
-# Worklog — [Topic]
+# Worklog — {{TOPIC}}
+
+<!-- Template — for format rules and writing guidance see: process/WORKLOG-FORMAT.md -->
 
 | Field | Value |
 |-------|-------|
-| **Date** | YYYY-MM-DD |
-| **Author** | name |
-| **Duration** | ~Xh |
-| **Related to** | [spec / runbook / issue / task] |
+| **Date** | {{YYYY-MM-DD}} |
+| **Author** | {{AUTHOR}} |
+| **Duration** | {{~Xh}} |
+| **Related to** | {{spec / runbook / issue / task}} |
 
 ---
 
 ## Context
 
-Why did this session happen? What problem were you trying to solve?
+{{Why did this session happen? What problem were you trying to solve?}}
 
 ---
 
 ## Work Log
 
-### [HH:MM] — [What you did]
+### {{HH:MM}} — {{What you did}}
 
-Description of what you did, decisions made, why.
+{{Description of what you did, decisions made, why.}}
 
 ```bash
-# Relevant commands (optional)
+# {{Relevant commands (optional)}}
 ```
 
-### [HH:MM] — [Next block]
+### {{HH:MM}} — {{Next block}}
 
 ...
 
@@ -41,16 +43,16 @@ Description of what you did, decisions made, why.
 
 ## Problems Found
 
-- **Problem**: description
-  - **Solution**: how it was resolved
-  - **Still open**: what remains unresolved
+- **Problem**: {{Description}}
+  - **Solution**: {{How it was resolved}}
+  - **Still open**: {{What remains unresolved}}
 
 ---
 
 ## Next Steps
 
-- [ ] Pending action 1
-- [ ] Pending action 2
+- [ ] {{Pending action 1}}
+- [ ] {{Pending action 2}}
 
 ---
 

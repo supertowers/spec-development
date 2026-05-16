@@ -1,25 +1,27 @@
-# [Feature Name]
+# {{FEATURE_NAME}}
+
+<!-- Template — for format rules and writing guidance see: process/SPEC-FORMAT.md -->
 
 | Field | Value |
 |-------|-------|
 | **Status** | Draft |
-| **Created** | YYYY-MM-DD |
-| **Updated** | YYYY-MM-DD |
-| **Author** | Name |
+| **Created** | {{YYYY-MM-DD}} |
+| **Updated** | {{YYYY-MM-DD}} |
+| **Author** | {{AUTHOR}} |
 | **Depends on** | — |
 
 ## Summary
 
-One or two paragraphs describing what this feature does and why it exists.
+{{One or two paragraphs describing what this feature does and why it exists.}}
 
 ## Goals
 
-1. **Goal 1**: Description
-2. **Goal 2**: Description
+1. **Goal 1**: {{Description}}
+2. **Goal 2**: {{Description}}
 
 ## Non-Goals
 
-- What is explicitly out of scope
+- {{What is explicitly out of scope}}
 
 ---
 
@@ -27,15 +29,15 @@ One or two paragraphs describing what this feature does and why it exists.
 
 ### Background
 
-Why does this feature exist? What problem does it solve?
+{{Why does this feature exist? What problem does it solve?}}
 
 ### Assumptions
 
-- Assumption 1
+- {{Assumption 1}}
 
 ### Constraints
 
-- Constraint 1
+- {{Constraint 1}}
 
 ---
 
@@ -43,26 +45,26 @@ Why does this feature exist? What problem does it solve?
 
 ### Functional Requirements
 
-1. **REQ-1**: [Short title]
+1. **REQ-1**: {{Short title}}
    - The system MUST ...
 
-2. **REQ-2**: [Short title]
-   - Description
+2. **REQ-2**: {{Short title}}
+   - {{Description}}
 
 ### Non-Functional Requirements
 
-1. **NFR-1**: [Category]
-   - Specific measurable requirement
+1. **NFR-1**: {{Category}}
+   - {{Specific measurable requirement}}
 
 ---
 
 ## Acceptance Criteria
 
-- **AC-1**: [Testable criterion]
-  - Can be verified by: [test approach]
+- **AC-1**: {{Testable criterion}}
+  - Can be verified by: {{test approach}}
 
-- **AC-2**: [Testable criterion]
-  - Can be verified by: [test approach]
+- **AC-2**: {{Testable criterion}}
+  - Can be verified by: {{test approach}}
 
 ---
 
@@ -86,7 +88,7 @@ Why does this feature exist? What problem does it solve?
 
 ## Open Questions
 
-- [ ] Question 1
+- [ ] {{Question 1}}
 
 ---
 
@@ -94,4 +96,4 @@ Why does this feature exist? What problem does it solve?
 
 | Version | Date | Changes | Author |
 |---------|------|---------|--------|
-| 1.0.0 | YYYY-MM-DD | Initial version | Name |
+| 1.0.0 | {{YYYY-MM-DD}} | Initial version | {{AUTHOR}} |
