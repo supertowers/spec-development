@@ -218,8 +218,65 @@ A document that records the work done during a development session: decisions ma
 
 ---
 
+### Black Box Rule
+
+The constraint under which the QA Agent operates: it tests the system without any knowledge of the implementation. The QA Agent knows what the user should experience (from the spec and UX artifacts) but never reads source code, never knows what language the code is in, and never knows how the developer chose to implement it.
+
+**See also**: [AGENT-ROLES.md](../process/AGENT-ROLES.md)
+
+---
+
+### Dev Agent
+
+The agent responsible for implementing production code to make acceptance tests pass. Can write unit tests and integration tests, but **cannot write or modify acceptance tests** (`.feature` files). Reports spec ambiguities to the Spec Agent.
+
+**See also**: [AGENT-ROLES.md](../process/AGENT-ROLES.md), [Developer](#developer)
+
+---
+
+### Process Agent
+
+*(Planned)* The agent responsible for continuously improving the SDD process itself — analyzing cycle times, identifying recurring ambiguities, improving templates and agent contexts.
+
+**See also**: [AGENT-ROLES.md](../process/AGENT-ROLES.md)
+
+---
+
+### QA Agent
+
+The agent responsible for building acceptance tests from the user's perspective. Operates under the [Black Box Rule](#black-box-rule) — never reads source code. Exists to eliminate the developer bias where the person who builds also decides what to test.
+
+**See also**: [AGENT-ROLES.md](../process/AGENT-ROLES.md), [Test Writer](#test-writer)
+
+---
+
+### Spec Agent
+
+The agent responsible for owning the complete specification system. Writes, modifies, and deletes specs. Validates coherence across all specs. Performs final validation of implementation against spec (Phase 5).
+
+**See also**: [AGENT-ROLES.md](../process/AGENT-ROLES.md), [Spec Manager](#spec-manager)
+
+---
+
+### Step Definition
+
+The code that wires a Gherkin step (`Given`, `When`, `Then`) to actual implementation logic. Written by the Dev Agent, not the QA Agent. This is the boundary: QA defines WHAT to test (the `.feature` file), Dev defines HOW to execute it (the step definitions).
+
+**See also**: [TESTING.md](./TESTING.md), [AGENT-ROLES.md](../process/AGENT-ROLES.md)
+
+---
+
+### UX Agent
+
+The agent responsible for defining how things behave from the user's perspective — both visually and functionally. Covers UX Designer and UI Designer workflow roles. Produces user journeys, wireframes, user-facing Gherkin scenarios, and static prototypes.
+
+**See also**: [AGENT-ROLES.md](../process/AGENT-ROLES.md), [UX Designer](#ux-designer), [UI Designer](#ui-designer)
+
+---
+
 ## Changelog
 
 | Version | Date | Changes | Author |
 |---------|------|---------|--------|
+| 1.1.0 | 2026-07-26 | Added agent-related terms (Spec/UX/QA/Dev/Process Agent, Black Box Rule, Step Definition) | Pablo López Torres |
 | 1.0.0 | 2026-05-16 | Initial version | Pablo López Torres / Alice Evergreen |
