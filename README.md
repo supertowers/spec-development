@@ -50,6 +50,7 @@ spec-development/
 ├── process/                           ← The workflow (how work gets done)
 │   ├── SPEC-DRIVEN-WORKFLOW.md        ← The full SDD lifecycle
 │   ├── AGENT-ROLES.md                 ← Agent roles and boundaries for agentic development
+│   ├── DEVELOPMENT-LOOPS.md           ← The 5 nested loops + metrics + improvement cycle
 │   ├── SPEC-FORMAT.md                 ← How to write a spec
 │   ├── RUNBOOK-FORMAT.md              ← How to document a procedure
 │   └── WORKLOG-FORMAT.md              ← How to log work in progress
@@ -73,11 +74,12 @@ New here? Read in this order — each document builds on the previous one.
 | 2 | [`standards/GLOSSARY.md`](./standards/GLOSSARY.md) | Learn the vocabulary before reading anything else. |
 | 3 | [`process/SPEC-DRIVEN-WORKFLOW.md`](./process/SPEC-DRIVEN-WORKFLOW.md) | Understand the full lifecycle before writing a line of code. |
 | 4 | [`process/AGENT-ROLES.md`](./process/AGENT-ROLES.md) | How the workflow is executed by specialized agents. |
-| 5 | [`process/SPEC-FORMAT.md`](./process/SPEC-FORMAT.md) | Learn how to write a spec correctly. |
-| 6 | [`standards/CODE-STYLE-QUICK-REFERENCE.md`](./standards/CODE-STYLE-QUICK-REFERENCE.md) | Code conventions at a glance. |
-| 7 | [`standards/TESTING.md`](./standards/TESTING.md) | BDD/Gherkin — how to write scenarios that actually work. |
-| 8 | [`standards/DESIGN-PRINCIPLES.md`](./standards/DESIGN-PRINCIPLES.md) | Only if your feature has a UI. |
-| 9 | [`process/RUNBOOK-FORMAT.md`](./process/RUNBOOK-FORMAT.md) · [`process/WORKLOG-FORMAT.md`](./process/WORKLOG-FORMAT.md) | Reference as needed. |
+| 5 | [`process/DEVELOPMENT-LOOPS.md`](./process/DEVELOPMENT-LOOPS.md) | The 5 nested feedback loops and how to measure improvement. |
+| 6 | [`process/SPEC-FORMAT.md`](./process/SPEC-FORMAT.md) | Learn how to write a spec correctly. |
+| 7 | [`standards/CODE-STYLE-QUICK-REFERENCE.md`](./standards/CODE-STYLE-QUICK-REFERENCE.md) | Code conventions at a glance. |
+| 8 | [`standards/TESTING.md`](./standards/TESTING.md) | BDD/Gherkin — how to write scenarios that actually work. |
+| 9 | [`standards/DESIGN-PRINCIPLES.md`](./standards/DESIGN-PRINCIPLES.md) | Only if your feature has a UI. |
+| 10 | [`process/RUNBOOK-FORMAT.md`](./process/RUNBOOK-FORMAT.md) · [`process/WORKLOG-FORMAT.md`](./process/WORKLOG-FORMAT.md) | Reference as needed. |
 
 ---
 
