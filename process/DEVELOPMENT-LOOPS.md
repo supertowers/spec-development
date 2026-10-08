@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | 1.0.0 |
+| **Version** | 1.1.0 |
 | **Status** | Draft |
 | **Created** | 2026-07-26 |
 | **Author** | Pablo López Torres |
@@ -102,7 +102,7 @@ Stakeholder has a requirement
 
 ### Exit Condition
 
-- Spec is written with clear REQ-N and AC-N
+- Spec is written with clear, scoped `KEY-REQ-N` and `KEY-AC-N` IDs
 - No conflicts with existing specs (coherence validated)
 - UX approved by stakeholder (if applicable)
 - All agents agree the spec is unambiguous enough to proceed
@@ -357,7 +357,7 @@ The complete end-to-end cycle for one feature, from requirement to validated imp
 | 2 — Acceptance Tests | Loop 2 (entry) | QA Agent | `.feature` |
 | 3 — Implementation | Loop 2 + Loop 3 | Dev Agent | Production code |
 | 4 — Code Review | — | Dev Agent + Spec Agent | Review report |
-| 5 — Validation | — | Spec Agent | Spec marked Active |
+| 5 — Validation | — | Spec Agent | Spec marked `implemented` |
 
 ### Entry Condition
 
@@ -368,7 +368,8 @@ The complete end-to-end cycle for one feature, from requirement to validated imp
 - All acceptance tests pass
 - Code review has no blocking findings
 - Spec Agent validates implementation matches spec
-- Spec status is set to `Active`
+- `spec-check` reports no new violations
+- Spec status is set to `implemented`
 
 ### Metrics to Track
 
@@ -392,7 +393,7 @@ The complete end-to-end cycle for one feature, from requirement to validated imp
 ## Loop 5 — Meta Loop (Process Improvement)
 
 **Speed**: Very slow (weekly or per-sprint)
-**Agents**: Process Agent (planned), all agents contribute data
+**Agents**: Process Agent (planned), Audit Agent supplies drift data, all agents contribute data
 
 ### Purpose
 
@@ -453,6 +454,7 @@ Multiple Full Cycles complete (Loop 4 × N)
 | **Iterations** | Loop 1 rounds, Loop 3 triggers, validation re-entries |
 | **Quality** | Regression count, test pass rate on first run, conflicts found |
 | **Volume** | Specs created/modified/deleted, tests created, LOC changed |
+| **Drift** | `spec-check` baseline size, new violations blocked in CI, audit findings per category (see [SPEC-AUDIT.md](./SPEC-AUDIT.md#metrics)) |
 
 #### Pattern Analysis (periodic review)
 
@@ -465,6 +467,8 @@ Multiple Full Cycles complete (Loop 4 × N)
 | Are acceptance tests catching real bugs? | Test quality | Improve QA Agent context |
 | How often does Dev modify `.feature` files? | Agent boundary violations | Reinforce boundaries in Dev Agent context |
 | What's the first-pass validation rate? | Process maturity | Target > 70% |
+| How many UNSPECIFIED findings per audit? | Agents adding unrequested behavior | Tighten agent rules; make specs more explicit about non-goals |
+| Is the `spec-check` baseline shrinking? | Progress towards full traceability | Schedule reverse-spec work ([BROWNFIELD-ADOPTION.md](./BROWNFIELD-ADOPTION.md)) |
 
 #### Trend Tracking (over time)
 
@@ -586,6 +590,7 @@ Use this template to track metrics across features:
 - [SPEC-DRIVEN-WORKFLOW.md](./SPEC-DRIVEN-WORKFLOW.md) — The linear workflow phases
 - [AGENT-ROLES.md](./AGENT-ROLES.md) — Agent definitions and boundaries
 - [SPEC-FORMAT.md](./SPEC-FORMAT.md) — How to write specs (Loop 1 output)
+- [SPEC-AUDIT.md](./SPEC-AUDIT.md) — Drift findings feed Loop 5
 - [`../standards/TESTING.md`](../standards/TESTING.md) — How to write tests (Loop 2 input)
 
 ---
@@ -595,3 +600,4 @@ Use this template to track metrics across features:
 | Version | Date | Changes | Author |
 |---------|------|---------|--------|
 | 1.0.0 | 2026-07-26 | Initial version — 5 development loops defined | Pablo López Torres |
+| 1.1.0 | 2026-10-08 | Drift metrics and Audit Agent input to Loop 5; `spec-check` in Loop 4 exit | Pablo López Torres |

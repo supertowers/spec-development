@@ -1,0 +1,18 @@
+{
+  "specs": "docs/specs",
+  "sources": ["src/**/*.ts"],
+  "tests": ["test/**/*.test.ts", "tests/**/*.test.ts"],
+  "exclude": ["**/dist/**", "**/node_modules/**", "**/*.d.ts"],
+  "exempt": [
+    { "path": "src/index.ts", "reason": "barrel file, re-exports only" }
+  ],
+  "surfaces": [
+    {
+      "name": "exported function",
+      "files": ["src/**/*.ts"],
+      "pattern": "^export (?:async )?function (\\w+)",
+      "window": 12
+    }
+  ],
+  "baseline": "spec-check.baseline.json"
+}

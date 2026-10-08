@@ -428,19 +428,27 @@ Scenario Outline: Authenticate with different credentials
 ```markdown
 ## Acceptance Criteria
 
-- **AC-1**: User can authenticate with email/password
-- **AC-2**: Invalid credentials are rejected
-- **AC-3**: User can reconnect with session token
-- **AC-4**: Expired tokens are rejected
+- **AUTH-AC-1**: User can authenticate with email/password
+- **AUTH-AC-2**: Invalid credentials are rejected
+- **AUTH-AC-3**: User can reconnect with session token
+- **AUTH-AC-4**: Expired tokens are rejected
 ```
 
 **Corresponding Tests**:
 ```gherkin
-Scenario: Authenticate with valid credentials  # Covers AC-1
-Scenario: Reject invalid password              # Covers AC-2
-Scenario: Authenticate with session token      # Covers AC-3
-Scenario: Reject expired session token         # Covers AC-4
+Scenario: Authenticate with valid credentials  # AUTH-AC-1
+Scenario: Reject invalid password              # AUTH-AC-2
+Scenario: Authenticate with session token      # AUTH-AC-3
+Scenario: Reject expired session token         # AUTH-AC-4
 ```
+
+The AC ID must appear **in the scenario or test title, or in a comment on the same scenario**. `spec-check` uses it to prove every AC of an implemented spec has a test (E010), and fails on IDs that do not exist (E005). In code-level test runners, put it at the start of the title:
+
+```ts
+it('[AUTH-AC-2] rejects an invalid password', …)
+```
+
+See [`process/TRACEABILITY.md`](../process/TRACEABILITY.md#33-test-links-ac-ids-in-test-names).
 
 ---
 
@@ -743,7 +751,7 @@ Feature: Channel Naming
     Given the TerOS backend is running
     And I am authenticated as "pablo@teros.ai"
 
-  # AC-1: Create with Name
+  # CHAN-AC-1: Create with Name
   Scenario: Create channel with custom name
     When I send a message:
       | type    | create_channel |
@@ -754,7 +762,7 @@ Feature: Channel Naming
       | channelId | not empty    |
       | name      | Work Project |
 
-  # AC-2: Rename Channel
+  # CHAN-AC-2: Rename Channel
   Scenario: Rename existing channel
     Given I have created a channel with name "Old Name"
     When I send a message:
@@ -764,14 +772,14 @@ Feature: Channel Naming
     Then I should receive a "channel_renamed" message
     And the channel name should be "New Name"
 
-  # AC-2: Name persists
+  # CHAN-AC-2: Name persists
   Scenario: Channel name persists after reconnection
     Given I have created a channel with name "My Project"
     When I disconnect and reconnect
     And I list my channels
     Then the channel should still have name "My Project"
 
-  # AC-3: Default Naming
+  # CHAN-AC-3: Default Naming
   Scenario: Channel without name defaults to agent name
     When I send a message:
       | type    | create_channel |
@@ -779,7 +787,7 @@ Feature: Channel Naming
     Then I should receive a "channel_created" message
     And the channel name should be "Iria"
 
-  # AC-4: Validation - Empty Name
+  # CHAN-AC-4: Validation - Empty Name
   Scenario: Reject empty channel name
     When I send a message:
       | type    | create_channel |
@@ -789,7 +797,7 @@ Feature: Channel Naming
     And the error code should be "INVALID_NAME"
     And the error message should contain "Name cannot be empty"
 
-  # AC-4: Validation - Long Name
+  # CHAN-AC-4: Validation - Long Name
   Scenario: Reject channel name exceeding 100 characters
     When I send a message:
       | type    | create_channel |
@@ -799,7 +807,7 @@ Feature: Channel Naming
     And the error code should be "INVALID_NAME"
     And the error message should contain "Name too long"
 
-  # AC-4: Validation - Unicode Support
+  # CHAN-AC-4: Validation - Unicode Support
   Scenario: Accept Unicode characters in channel name
     When I send a message:
       | type    | create_channel |
@@ -875,7 +883,7 @@ Scenario: Feature in development
 
 **Example**:
 ```
-Spec Change: AC-3 added "Names must be unique per user"
+Spec Change: CHAN-AC-3 added "Names must be unique per user"
 
 Test Update: Add scenario:
   Scenario: Reject duplicate channel name
@@ -972,8 +980,8 @@ Before marking tests as complete, verify:
 
 ## Related Documents
 
-- [SPEC-DRIVEN-WORKFLOW.md](./SPEC-DRIVEN-WORKFLOW.md) - Overall development workflow
-- [SPEC-FORMAT.md](./SPEC-FORMAT.md) - How to write specifications
+- [SPEC-DRIVEN-WORKFLOW.md](../process/SPEC-DRIVEN-WORKFLOW.md) - Overall development workflow
+- [SPEC-FORMAT.md](../process/SPEC-FORMAT.md) - How to write specifications
 - [ARCHITECTURE.md](./ARCHITECTURE.md) - Technical architecture context
 - [CODE-STYLE.md](./CODE-STYLE.md) - Code conventions
 

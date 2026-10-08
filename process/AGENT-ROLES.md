@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | 1.0.0 |
+| **Version** | 1.1.0 |
 | **Status** | Draft |
 | **Created** | 2026-07-26 |
 | **Author** | Pablo López Torres |
@@ -13,7 +13,7 @@
 
 This document defines the specialized agent roles that operate within the SDD workflow. Each agent has a **clearly bounded responsibility** and explicit rules about what it can and cannot do. The separation exists to prevent the biases and blind spots that emerge when a single actor performs multiple roles.
 
-The six workflow roles defined in [SPEC-DRIVEN-WORKFLOW.md](./SPEC-DRIVEN-WORKFLOW.md) describe *what work gets done*. This document describes *who does it* — four specialized agents, each owning one or more roles.
+The six workflow roles defined in [SPEC-DRIVEN-WORKFLOW.md](./SPEC-DRIVEN-WORKFLOW.md) describe *what work gets done*. This document describes *who does it* — four building agents, each owning one or more roles, plus an Audit Agent that checks their combined output against the specs.
 
 ### Core Principle
 
@@ -58,6 +58,7 @@ The four agents cover the six workflow roles:
 | UX Agent | UX Designer, UI Designer | 1B, 1C |
 | QA Agent | Test Writer | 2 |
 | Dev Agent | Developer, Code Reviewer (architecture) | 3, 4 |
+| Audit Agent | Validator (spec ↔ code drift) | 5, 6 |
 
 ---
 
@@ -74,12 +75,14 @@ Be the **single source of truth** for what the system does. Write, maintain, and
 | Converse with stakeholders to understand requirements | Write tests |
 | Analyze existing specs before writing new ones | Implement code |
 | Write/modify/delete specs in `/docs/specs/` | Make UX decisions |
-| Define requirements (REQ-N) with RFC 2119 keywords | Decide visual layout or behavior |
-| Define acceptance criteria (AC-N) — testable, measurable | Write Gherkin scenarios |
+| Define requirements (`KEY-REQ-N`) with RFC 2119 keywords | Decide visual layout or behavior |
+| Define acceptance criteria (`KEY-AC-N`) — testable, measurable | Write Gherkin scenarios |
 | Validate cross-spec coherence | Touch test files |
 | Maintain the spec dependency graph | Touch source code |
 | Flag and resolve conflicts between specs | |
-| Validate implementation against spec (Phase 5) | |
+| Assign scoped IDs and declare `covers` | Approve its own specs (a human does) |
+| Retire IDs instead of renumbering or reusing them | Rewrite a requirement to match code that already exists |
+| Triage Audit Agent findings into spec changes | |
 
 ### Key Activities
 
@@ -118,6 +121,8 @@ Be the **single source of truth** for what the system does. Write, maintain, and
 - Defining HOW something should be implemented (that's Dev's job)
 - Defining HOW something should look or behave for the user (that's UX's job)
 - Writing acceptance criteria that require knowledge of implementation to verify
+- "Legalizing" unplanned behavior by adding a requirement for it without a human decision
+- Editing the meaning of an existing ID instead of retiring it and defining a new one
 
 ---
 
@@ -204,7 +209,7 @@ Build acceptance tests that validate the product **from the user's perspective**
 |----|-------|
 | Read specs AND UX artifacts to understand expected behavior | Write or modify specs |
 | Write executable Gherkin acceptance tests (`.feature` files) | Write production code |
-| Ensure every acceptance criterion (AC-N) has test coverage | Read source code to understand "how it works" |
+| Ensure every acceptance criterion (`KEY-AC-N`) has test coverage | Read source code to understand "how it works" |
 | Reuse user-facing scenarios from UX Agent when applicable | Let the developer influence what gets tested |
 | Write additional system-level scenarios for non-UI behavior | Write unit tests or integration tests |
 | Maintain test coverage reports (AC to test mapping) | Implement step definitions (Dev does this) |
@@ -261,14 +266,14 @@ Both user-facing and system-facing scenarios are valid. What is **never valid** 
 
 ### Inputs
 
-- Spec from Spec Agent (AC-N list is the primary input)
+- Spec from Spec Agent (`KEY-AC-N` list is the primary input)
 - UX artifacts from UX Agent (ux.md, wireframes, user-facing Gherkin)
 - Spec change notifications from Spec Agent
 
 ### Outputs
 
 - Acceptance test files: `/tests/acceptance/{namespace}/feature.feature`
-- Coverage reports: mapping of AC-N to test scenarios
+- Coverage reports: mapping of `KEY-AC-N` to test scenarios
 - Untestable criteria reports (sent back to Spec Agent)
 
 ### Success Criteria
@@ -310,6 +315,9 @@ Implement code that satisfies the specs and makes all acceptance tests pass. Wri
 | Follow the Red / Green / Refactor cycle | Implement features not in the spec |
 | Report ambiguities back to Spec Agent | "Fix" failing acceptance tests by changing them |
 | Follow [CODE-STYLE.md](../standards/CODE-STYLE.md) and [ENGINEERING-PRINCIPLES.md](../standards/ENGINEERING-PRINCIPLES.md) | Decide what user behavior should be tested |
+| Name the requirement IDs before writing code | Implement against a `draft` spec |
+| Annotate every public entry point with `@spec KEY-REQ-N` | Add fallbacks, retries, flags or defaults no requirement asks for |
+| Run `spec-check` before reporting completion | Add entries to the `spec-check` baseline or exempt list |
 
 ### The Acceptance Test Boundary
 
@@ -373,11 +381,14 @@ Acceptance test fails
 - No regressions in existing functionality
 - Complex internal logic is covered by unit tests
 - No features implemented beyond what the spec defines
+- `spec-check` reports no new violations
 
 ### Anti-patterns
 
 - Modifying acceptance tests to match the implementation ("fixing the tests")
 - Implementing features not defined in the spec ("I thought it would be useful")
+- Silent fallbacks, invented defaults and speculative retries — the most common shapes of hallucinated scope
+- Annotating code with a requirement ID it does not actually implement, to satisfy the checker
 - Guessing when the spec is ambiguous (ask Spec Agent instead)
 - Skipping the Red phase (writing code before running tests)
 - Writing unit tests as a substitute for failing acceptance tests
@@ -385,7 +396,53 @@ Acceptance test fails
 
 ---
 
-## Agent 5: Process Agent (Planned)
+## Agent 5: Audit Agent
+
+### Mission
+
+Find every disagreement between the specs and the system. The building agents each see one slice of the work; the Audit Agent is the only one that reads specs, code and tests side by side, in both directions, with the explicit goal of finding drift.
+
+### Responsibilities
+
+| DO | DON'T |
+|----|-------|
+| Run `spec-check` and read the traceability matrix | Edit code, tests or specs |
+| Check every requirement is implemented as written (forward pass) | Decide whether unspecified behavior should be kept |
+| Enumerate every behavior in owned code and map it to a requirement (reverse pass) | Read PR descriptions or chat history to infer intent |
+| Check that tests citing an AC actually verify it | Soften or omit findings |
+| Report findings with file and line evidence | Audit code it wrote in the same session |
+| Have every finding independently verified before reporting | Pad the report with speculative findings |
+
+### Why a Separate Agent?
+
+The Dev Agent is biased towards its own code; the Spec Agent is biased towards its own spec. When both were written by agents, both can contain the same invented behavior, and they will agree with each other. The Audit Agent is the only actor whose success is measured by **disagreements found**, and its findings are resolved by a human, never by another agent.
+
+### Inputs
+
+- A spec key
+- The spec, the `spec-check` traceability matrix, the files in `covers`, the tests citing the spec's ACs
+
+### Outputs
+
+- Audit report in `docs/specs/_audits/YYYY-MM-DD.md` (see [SPEC-AUDIT.md](./SPEC-AUDIT.md))
+
+### Success Criteria
+
+- Every finding carries file and line evidence and a spec quote
+- Every finding survives an independent verification pass
+- Every spec is audited at least once per audit horizon
+
+### Anti-patterns
+
+- Reporting "looks good" without enumerating behaviors in the reverse pass
+- Recommending that unspecified behavior be adopted
+- Auditing against the PR description instead of the spec
+
+A ready-made definition lives in [`../agents/spec-auditor.md`](../agents/spec-auditor.md).
+
+---
+
+## Agent 6: Process Agent (Planned)
 
 > **Status: Planned** — This agent will be defined in a future version.
 
@@ -398,6 +455,7 @@ Continuously improve the SDD process itself. Analyze the performance of all othe
 - Analyze cycle times and iteration counts
 - Identify recurring ambiguities and improve spec templates to prevent them
 - Monitor test quality and coverage trends
+- Track drift metrics from Spec Audits and the `spec-check` baseline trend
 - Improve agent contexts and prompts based on observed failures
 - Propose workflow changes backed by data
 - Maintain and improve this very document
@@ -435,8 +493,9 @@ Continuously improve the SDD process itself. Analyze the performance of all othe
               │              │ implementation
               │              ▼
               │     ┌──────────────────┐
-              └────▶│  VALIDATION      │
-                    │  (Spec Agent)    │
+              └────▶│  5. AUDIT AGENT  │── findings ──▶ HUMAN decides
+                    │  spec-check +    │
+                    │  drift audit     │
                     └──────────────────┘
 ```
 
@@ -480,6 +539,15 @@ Action Required: Implement to make all tests pass.
 #### Dev Agent → Spec Agent
 
 ```
+Missing requirement:
+- Spec: /docs/specs/{namespace}/feature.md (KEY)
+- Behavior needed: {what the code would have to do}
+- Why: {which REQ or AC cannot be satisfied without it}
+
+Action Required: Decide whether to add a requirement. Do not implement until approved.
+```
+
+```
 Ambiguity found:
 - Spec: /docs/specs/{namespace}/feature.md
 - Section: {section}
@@ -492,30 +560,47 @@ Action Required: Clarify spec.
 ```
 Implementation complete:
 - Spec: /docs/specs/{namespace}/feature.md
+- Requirements implemented: {KEY-REQ-1, …}
 - Tests: All passing
+- spec-check: no new violations
 - Files modified: {list}
 
-Action Required: Validate implementation against spec.
+Action Required: Audit Agent to audit this spec.
+```
+
+#### Audit Agent → Human
+
+```
+Spec audit complete:
+- Specs audited: {KEY, …}
+- Report: docs/specs/_audits/YYYY-MM-DD.md
+- Findings: {count per category}
+
+Action Required: Decide every finding (Adopt/Remove, Fix code/Change spec, …).
 ```
 
 ---
 
 ## Boundaries Summary
 
-| Action | Spec | UX | QA | Dev |
-|--------|:----:|:--:|:--:|:---:|
-| Write/modify specs | Yes | No | No | No |
-| Define user journeys | No | Yes | No | No |
-| Create wireframes/prototypes | No | Yes | No | No |
-| Write acceptance tests (`.feature`) | No | No | Yes | No |
-| Write user-facing Gherkin | No | Yes | Yes | No |
-| Write step definitions | No | No | No | Yes |
-| Write unit tests | No | No | No | Yes |
-| Write integration tests | No | No | No | Yes |
-| Write production code | No | No | No | Yes |
-| Read source code | No | No | No | Yes |
-| Report ambiguities to Spec | Yes | Yes | Yes | Yes |
-| Validate implementation | Yes | No | No | No |
+| Action | Spec | UX | QA | Dev | Audit |
+|--------|:----:|:--:|:--:|:---:|:-----:|
+| Write/modify specs | Yes | No | No | No | No |
+| Define user journeys | No | Yes | No | No | No |
+| Create wireframes/prototypes | No | Yes | No | No | No |
+| Write acceptance tests (`.feature`) | No | No | Yes | No | No |
+| Write user-facing Gherkin | No | Yes | Yes | No | No |
+| Write step definitions | No | No | No | Yes | No |
+| Write unit tests | No | No | No | Yes | No |
+| Write integration tests | No | No | No | Yes | No |
+| Write production code | No | No | No | Yes | No |
+| Read source code | No | No | No | Yes | Yes |
+| Report ambiguities to Spec | Yes | Yes | Yes | Yes | Yes |
+| Validate implementation | Yes | No | No | No | Yes |
+| Approve a spec (`draft` → `approved`) | No | No | No | No | No |
+| Decide drift findings | No | No | No | No | No |
+
+Approving specs and deciding drift findings belong to a **human**. No agent may authorize scope.
 
 ---
 
@@ -524,3 +609,4 @@ Action Required: Validate implementation against spec.
 | Version | Date | Changes | Author |
 |---------|------|---------|--------|
 | 1.0.0 | 2026-07-26 | Initial version — 4 agent roles defined, 5th planned | Pablo López Torres |
+| 1.1.0 | 2026-10-08 | Audit Agent added as Agent 5; Process Agent becomes Agent 6; human-only approval; traceability duties for Spec and Dev agents | Pablo López Torres |

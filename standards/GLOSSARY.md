@@ -2,10 +2,10 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | 1.0.0 |
+| **Version** | 1.2.0 |
 | **Status** | Active |
 | **Created** | 2026-05-16 |
-| **Updated** | 2026-05-16 |
+| **Updated** | 2026-10-08 |
 | **Author** | Pablo López Torres / Alice Evergreen |
 
 ---
@@ -22,7 +22,7 @@ If you introduce a new term in a spec, add it here.
 
 ### Acceptance Criterion (AC)
 
-A specific, testable condition that must be true for a feature to be considered complete. Acceptance criteria are numbered (`AC-1`, `AC-2`, ...) and live in the spec. Every AC must map to at least one test scenario.
+A specific, testable condition that must be true for a feature to be considered complete. Acceptance criteria carry scoped IDs (`INV-AC-1`, `INV-AC-2`, ...) and live in the spec. Every AC must map to at least one test scenario.
 
 **See also**: [Spec](#spec), [Scenario](#scenario)
 
@@ -70,7 +70,7 @@ A `.feature` file containing Gherkin scenarios for a specific feature. Lives in 
 
 ### Functional Requirement (REQ)
 
-A statement of what the system must do. Numbered (`REQ-1`, `REQ-2`, ...). Uses RFC 2119 keywords (`MUST`, `SHOULD`, `MAY`). Lives in the spec under `## Requirements`.
+A statement of what the system must do. Identified by scoped IDs (`INV-REQ-1`, `INV-REQ-2`, ...). Uses RFC 2119 keywords (`MUST`, `SHOULD`, `MAY`). Lives in the spec under `## Requirements`.
 
 Contrast with [Non-Functional Requirement](#non-functional-requirement-nfr).
 
@@ -108,7 +108,7 @@ A top-level grouping for specs and tests that corresponds to a domain or functio
 
 ### Non-Functional Requirement (NFR)
 
-A constraint on how the system must behave, rather than what it must do. Examples: performance, security, availability, scalability. Numbered (`NFR-1`, `NFR-2`, ...). Lives in the spec under `## Requirements`.
+A constraint on how the system must behave, rather than what it must do. Examples: performance, security, availability, scalability. Identified by scoped IDs (`INV-NFR-1`, `INV-NFR-2`, ...). Lives in the spec under `## Requirements`.
 
 Contrast with [Functional Requirement](#functional-requirement-req).
 
@@ -236,7 +236,7 @@ The agent responsible for implementing production code to make acceptance tests 
 
 ### Process Agent
 
-*(Planned)* The agent responsible for continuously improving the SDD process itself — analyzing cycle times, identifying recurring ambiguities, improving templates and agent contexts.
+*(Planned)* Agent 6. The agent responsible for continuously improving the SDD process itself — analyzing cycle times, identifying recurring ambiguities, improving templates and agent contexts.
 
 **See also**: [AGENT-ROLES.md](../process/AGENT-ROLES.md)
 
@@ -252,7 +252,7 @@ The agent responsible for building acceptance tests from the user's perspective.
 
 ### Spec Agent
 
-The agent responsible for owning the complete specification system. Writes, modifies, and deletes specs. Validates coherence across all specs. Performs final validation of implementation against spec (Phase 5).
+The agent responsible for owning the complete specification system. Writes, modifies, and deletes specs. Validates coherence across all specs. Shares Phase 5 validation with the Audit Agent. Never approves its own specs; a human does.
 
 **See also**: [AGENT-ROLES.md](../process/AGENT-ROLES.md), [Spec Manager](#spec-manager)
 
@@ -274,9 +274,96 @@ The agent responsible for defining how things behave from the user's perspective
 
 ---
 
+### Audit Agent
+
+The agent that compares specs with the code and tests they own, in both directions, and reports drift. Read-only. Its findings are decided by a human.
+
+**See also**: [SPEC-AUDIT.md](../process/SPEC-AUDIT.md), [Drift](#drift)
+
+---
+
+### Baseline
+
+The list of known `spec-check` violations in an existing codebase. CI fails only on violations not in the baseline. The baseline may only shrink.
+
+**See also**: [TRACEABILITY.md](../process/TRACEABILITY.md#baseline-ratchet)
+
+---
+
+### Covers
+
+The frontmatter field listing the globs of source files a spec owns. Every source file must be covered by at least one approved spec.
+
+**See also**: [Orphan Code](#orphan-code)
+
+---
+
+### Drift
+
+Any disagreement between a spec and the system: a requirement not built, built differently, or behavior built that no requirement asks for.
+
+**See also**: [Unspecified Behavior](#unspecified-behavior), [SPEC-AUDIT.md](../process/SPEC-AUDIT.md)
+
+---
+
+### Orphan Code
+
+A source file not covered by any approved spec and not explicitly exempted. Reported by `spec-check` as E008.
+
+---
+
+### Requirement ID
+
+The globally unique identifier of a requirement, NFR or acceptance criterion, in the form `{SPEC-KEY}-{REQ|NFR|AC}-{N}`, for example `INV-REQ-3`. Never renumbered and never reused.
+
+**See also**: [Spec Key](#spec-key), [Retired ID](#retired-id)
+
+---
+
+### Retired ID
+
+A requirement ID that has been removed from its spec. Listed in the spec's `retired` frontmatter so it can never be reused. Code referencing it fails `spec-check`.
+
+---
+
+### Spec Key
+
+The short uppercase identifier of a spec, declared as `id` in its frontmatter, and used as the prefix of all its requirement IDs.
+
+---
+
+### `@spec` Annotation
+
+A comment tag on a public surface item naming the requirement it implements: `@spec INV-REQ-1`. The reverse link from code to spec.
+
+**See also**: [Surface Item](#surface-item)
+
+---
+
+### Surface Item
+
+Any way the outside world can reach behavior: an exported function, a route, a CLI command or flag, a tool definition, a message type. Each must carry an `@spec` annotation. Each project declares its surface patterns in `spec-check.config.json`.
+
+---
+
+### Traceability
+
+The property that every requirement links to the code and tests realizing it (forward), and every piece of code links to the requirement that justifies it (reverse).
+
+**See also**: [TRACEABILITY.md](../process/TRACEABILITY.md)
+
+---
+
+### Unspecified Behavior
+
+Behavior present in the code that no requirement asks for. The typical form of a hallucinated feature. Each instance is resolved by a human as **Adopt** (write a requirement) or **Remove** (delete the code).
+
+---
+
 ## Changelog
 
 | Version | Date | Changes | Author |
 |---------|------|---------|--------|
+| 1.2.0 | 2026-10-08 | Added traceability terms (Audit Agent, Baseline, Covers, Drift, Orphan Code, Requirement ID, Retired ID, Spec Key, `@spec`, Surface Item, Traceability, Unspecified Behavior) | Pablo López Torres |
 | 1.1.0 | 2026-07-26 | Added agent-related terms (Spec/UX/QA/Dev/Process Agent, Black Box Rule, Step Definition) | Pablo López Torres |
 | 1.0.0 | 2026-05-16 | Initial version | Pablo López Torres / Alice Evergreen |

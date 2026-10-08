@@ -1,14 +1,19 @@
+---
+id: {{KEY}}
+title: {{FEATURE_NAME}}
+status: draft
+version: 1.0.0
+created: {{YYYY-MM-DD}}
+updated: {{YYYY-MM-DD}}
+owners: [{{AUTHOR}}]
+depends_on: []
+covers: []
+retired: []
+---
+
 # {{FEATURE_NAME}}
 
-<!-- Template — for format rules and writing guidance see: process/SPEC-FORMAT.md -->
-
-| Field | Value |
-|-------|-------|
-| **Status** | Draft |
-| **Created** | {{YYYY-MM-DD}} |
-| **Updated** | {{YYYY-MM-DD}} |
-| **Author** | {{AUTHOR}} |
-| **Depends on** | — |
+<!-- Template — format rules: process/SPEC-FORMAT.md · IDs and covers: process/TRACEABILITY.md -->
 
 ## Summary
 
@@ -45,25 +50,25 @@
 
 ### Functional Requirements
 
-1. **REQ-1**: {{Short title}}
+1. **{{KEY}}-REQ-1**: {{Short title}}
    - The system MUST ...
 
-2. **REQ-2**: {{Short title}}
+2. **{{KEY}}-REQ-2**: {{Short title}}
    - {{Description}}
 
 ### Non-Functional Requirements
 
-1. **NFR-1**: {{Category}}
+1. **{{KEY}}-NFR-1**: {{Category}}
    - {{Specific measurable requirement}}
 
 ---
 
 ## Acceptance Criteria
 
-- **AC-1**: {{Testable criterion}}
+- **{{KEY}}-AC-1**: {{Testable criterion}} (verifies {{KEY}}-REQ-1)
   - Can be verified by: {{test approach}}
 
-- **AC-2**: {{Testable criterion}}
+- **{{KEY}}-AC-2**: {{Testable criterion}} (verifies {{KEY}}-REQ-2)
   - Can be verified by: {{test approach}}
 
 ---
@@ -94,6 +99,6 @@
 
 ## Changelog
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 1.0.0 | {{YYYY-MM-DD}} | Initial version | {{AUTHOR}} |
+| Version | Date | Changes | Author | Approved by |
+|---------|------|---------|--------|-------------|
+| 1.0.0 | {{YYYY-MM-DD}} | Initial version | {{AUTHOR}} | — |

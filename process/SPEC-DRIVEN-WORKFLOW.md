@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | 1.0.0 |
+| **Version** | 1.1.0 |
 | **Status** | Active |
 | **Author** | Pablo López Torres / Alice Evergreen |
 
@@ -215,10 +215,13 @@ If the project has a Gherkin test runner configured (Cucumber.js, Vitest with Gh
 ║                                                                 ║
 ║  1. Analyze existing specs for conflicts                        ║
 ║  2. Write/modify/delete spec in /docs/specs/{ns}/feature.md     ║
-║     → REQ-N (functional requirements)                           ║
-║     → NFR-N (non-functional requirements)                       ║
-║     → AC-N  (acceptance criteria, testable)                     ║
+║     → KEY-REQ-N (functional requirements)                       ║
+║     → KEY-NFR-N (non-functional requirements)                   ║
+║     → KEY-AC-N  (acceptance criteria, testable)                 ║
 ║  3. Validate system-wide coherence                              ║
+║  4. Declare covers (the code this spec will own)                ║
+║  5. ⛔ GATE: a human approves → status: approved               ║
+║     No tests or code may reference a draft spec.                ║
 ╚══════════════════════════╤══════════════════════════════════════╝
                            │
                            ▼ Does the feature have a UI?
@@ -275,6 +278,8 @@ If the project has a Gherkin test runner configured (Cucumber.js, Vitest with Gh
 ║  → Read spec + ux.md + prototype + .feature                    ║
 ║  → Implement until all acceptance tests pass                   ║
 ║  → Write unit tests for complex internal logic                 ║
+║  → Annotate every public entry point: @spec KEY-REQ-N          ║
+║  → Add NOTHING the spec does not ask for                       ║
 ╚══════════════════════════╤══════════════════════════════════════╝
                            │
                            ▼
@@ -311,19 +316,46 @@ If the project has a Gherkin test runner configured (Cucumber.js, Vitest with Gh
                            │
                            ▼
 ╔═════════════════════════════════════════════════════════════════╗
-║  PHASE 5 — Validation                      [Spec Manager]       ║
+║  PHASE 5 — Validation           [Spec Manager + Audit Agent]    ║
 ║                                                                 ║
+║  → spec-check: no new violations (structural)                  ║
+║  → Audit Agent: forward + reverse pass on this spec            ║
 ║  → Does implementation match spec?                             ║
 ║  → Does UI match the approved prototype?                       ║
 ║  → Are there inconsistencies with other specs?                 ║
 ║                                                                 ║
-║  ✅ OK → mark spec as Active/Implemented                       ║
+║  ✅ OK → mark spec as implemented                             ║
 ║  🔄 Not OK → refine and iterate from Phase 2 or 3             ║
 ╚══════════════════════════╤══════════════════════════════════════╝
                            │
                            ▼
                        ✅ DONE
+                           │
+                           ▼
+╔═════════════════════════════════════════════════════════════════╗
+║  PHASE 6 — Continuous Audit         [Audit Agent → Human]      ║
+║                                                                 ║
+║  → spec-check on every push (CI, blocking)                     ║
+║  → Scheduled semantic audit of every spec (weekly)             ║
+║  → Every drift finding gets a human decision                   ║
+╚═════════════════════════════════════════════════════════════════╝
 ```
+
+---
+
+## Traceability
+
+The workflow above guarantees that specs produce code. [TRACEABILITY.md](./TRACEABILITY.md) guarantees the reverse: that all code was produced by a spec. It plugs into the phases as follows.
+
+| Phase | Traceability obligation |
+|-------|-------------------------|
+| 1A | Requirements get scoped IDs. The spec declares `covers`. A human approves it. |
+| 2 | Every scenario or test names the AC it verifies. |
+| 3 | Every public entry point carries `@spec`. No behavior beyond the requirements. |
+| 5 | `spec-check` is green and the Audit Agent finds no drift. Status becomes `implemented`. |
+| 6 | `spec-check` runs on every change. The [Spec Audit](./SPEC-AUDIT.md) runs on a schedule. |
+
+> **No ID, no code.** If the Developer cannot name the requirement a piece of code implements, the code does not get written. The gap goes back to Phase 1A.
 
 ---
 
@@ -382,9 +414,10 @@ Before finalizing any spec change:
 
 ```
 Spec ready for testing:
-- Spec: /docs/specs/{namespace}/[feature].md
+- Spec: /docs/specs/{namespace}/[feature].md (KEY, status: approved, approved by: [name])
 - Action: Created / Modified / Deleted
-- Acceptance Criteria: [count]
+- Acceptance Criteria: [KEY-AC-1, KEY-AC-2, …]
+- Retired IDs: [list or none]
 - Priority: P0 / P1 / P2
 
 Action Required: Create/update/delete acceptance tests in /tests/acceptance/{namespace}/
@@ -405,7 +438,9 @@ Action Required: Implement until all scenarios pass.
 
 ```
 Implementation complete:
+- Requirements implemented: [KEY-REQ-1, KEY-REQ-2, …]
 - All [N] acceptance tests: PASSING
+- spec-check: no new violations
 - Files changed: [list]
 - Unit tests added: [yes/no]
 
@@ -419,3 +454,4 @@ Action Required: Code review for architectural coherence.
 | Version | Date | Changes | Author |
 |---------|------|---------|--------|
 | 1.0.0 | 2026-05-16 | Initial version | Pablo López Torres |
+| 1.1.0 | 2026-10-08 | Human approval gate in 1A; `@spec` annotations in 3; `spec-check` and Audit Agent in 5; new Phase 6 continuous audit; Traceability section | Pablo López Torres |

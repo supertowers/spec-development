@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | 1.0.0 |
+| **Version** | 2.0.0 |
 | **Status** | Active |
 | **Author** | Pablo López Torres / Alice Evergreen |
 
@@ -46,21 +46,41 @@ docs/specs/
 
 **Naming**: `kebab-case.md`
 
+**Reserved paths**: directories starting with `_` hold generated or auxiliary material, such as `_audits/` and `_generated/`. They are not specs and are ignored by `spec-check`. Design docs, RFCs and roadmaps do not belong in `docs/specs/` at all. See [BROWNFIELD-ADOPTION.md](./BROWNFIELD-ADOPTION.md#phase-1--separate-specs-from-other-documents).
+
+---
+
+## Frontmatter and IDs
+
+Every spec starts with a YAML frontmatter block, and every requirement, NFR and acceptance criterion carries an ID scoped by the spec key, such as `INV-REQ-3`. Both are defined normatively in [TRACEABILITY.md](./TRACEABILITY.md). In short:
+
+- The frontmatter is the machine-readable source of truth for status, ownership (`covers`) and retired IDs. Do not duplicate it in a metadata table.
+- An ID is defined by writing it in bold in its own spec: `**INV-REQ-3**`.
+- IDs are never renumbered or reused. Removed IDs go to `retired`.
+- A change in meaning gets a new ID, not an edited old one.
+- Only a human moves `status` from `draft` to `approved`, and the changelog records who.
+
 ---
 
 ## Spec Template
 
 ```markdown
-# [Feature/System Name]
+---
+id: KEY                         # spec key: prefix of every ID below
+title: Feature/System Name
+status: draft                   # draft | approved | implemented | deprecated
+version: 1.0.0
+created: YYYY-MM-DD
+updated: YYYY-MM-DD
+owners: [name]
+depends_on: [OTHERKEY]          # optional
+supersedes: [OLDKEY]            # optional
+covers:                         # required once status leaves draft
+  - path/to/owned/code/**
+retired: []                     # IDs removed from this spec, never reused
+---
 
-| Field | Value |
-|-------|-------|
-| **Status** | Draft / Active / Deprecated / Superseded |
-| **Created** | YYYY-MM-DD |
-| **Updated** | YYYY-MM-DD |
-| **Author** | Name |
-| **Depends on** | [Other Spec](./other-spec.md) (optional) |
-| **Supersedes** | [Old Spec](./old-spec.md) (optional) |
+# Feature/System Name
 
 ## Summary
 
@@ -107,29 +127,29 @@ Why does this feature exist? What problem does it solve?
 
 ### Functional Requirements
 
-1. **REQ-1**: [Short title]
+1. **KEY-REQ-1**: [Short title]
    - The system MUST ...
    - Use RFC 2119 keywords: MUST, MUST NOT, SHOULD, SHOULD NOT, MAY
 
-2. **REQ-2**: [Short title]
+2. **KEY-REQ-2**: [Short title]
    - Description
 
 ### Non-Functional Requirements
 
-1. **NFR-1**: [Performance]
+1. **KEY-NFR-1**: [Performance]
    - Specific measurable requirement
 
-2. **NFR-2**: [Security]
+2. **KEY-NFR-2**: [Security]
    - Security requirement
 
 ---
 
 ## Acceptance Criteria
 
-- **AC-1**: [Testable criterion]
+- **KEY-AC-1**: [Testable criterion] (verifies KEY-REQ-1)
   - Can be verified by: [test approach]
 
-- **AC-2**: [Testable criterion]
+- **KEY-AC-2**: [Testable criterion] (verifies KEY-REQ-2)
   - Can be verified by: [test approach]
 
 ---
@@ -184,9 +204,9 @@ Hints for developers — NOT requirements. The developer chooses the implementat
 
 ## Changelog
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 1.0.0 | YYYY-MM-DD | Initial version | Name |
+| Version | Date | Changes | Author | Approved by |
+|---------|------|---------|--------|-------------|
+| 1.0.0 | YYYY-MM-DD | Initial version | Name | Name (human) |
 ```
 
 ---
@@ -231,11 +251,11 @@ Each AC must:
 
 ---
 
-## Checklist — Before Marking a Spec Active
+## Checklist — Before Approving a Spec
 
 **Completeness:**
 - [ ] All required sections are present
-- [ ] Metadata table is complete (status, created, author)
+- [ ] Frontmatter is complete: `id`, `title`, `status`, `covers`
 - [ ] Summary is clear and concise
 - [ ] Goals and Non-Goals are defined
 - [ ] Requirements are numbered and specific
@@ -255,8 +275,15 @@ Each AC must:
 - [ ] Dependencies are documented
 - [ ] Related specs are linked
 
+**Traceability:**
+- [ ] Every REQ, NFR and AC has a scoped ID defined in bold
+- [ ] Every AC names the REQ it verifies
+- [ ] No ID was renumbered or reused; removed IDs are in `retired`
+- [ ] `covers` lists all the code this spec owns, and nothing it does not
+- [ ] Every behavior the code should have is a requirement. Anything not written here will be treated as unspecified and removed.
+
 **Maintainability:**
-- [ ] Changelog is present
+- [ ] Changelog is present and records the human approver
 - [ ] Status is set correctly
 
 ---
@@ -266,3 +293,4 @@ Each AC must:
 | Version | Date | Changes | Author |
 |---------|------|---------|--------|
 | 1.0.0 | 2026-05-16 | Initial version | Pablo López Torres |
+| 2.0.0 | 2026-10-08 | YAML frontmatter replaces metadata table; scoped IDs (`KEY-REQ-N`); `covers`, `retired`, approval column; traceability checklist | Pablo López Torres |

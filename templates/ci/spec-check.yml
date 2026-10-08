@@ -1,0 +1,29 @@
+# GitHub Actions job: structural traceability check on every push and PR.
+# Copy to .github/workflows/spec-check.yml and adjust the Node version if needed.
+name: Spec Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  spec-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check spec traceability
+        run: node tools/spec-check.mjs
+      - name: Publish traceability matrix
+        if: always()
+        run: |
+          mkdir -p artifacts
+          node tools/spec-check.mjs --matrix artifacts/traceability-matrix.md || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: traceability-matrix
+          path: artifacts/

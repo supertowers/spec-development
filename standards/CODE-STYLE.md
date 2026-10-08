@@ -1621,7 +1621,7 @@ yarn lint
 
 - [ARCHITECTURE.md](./ARCHITECTURE.md) - Backend architecture
 - [APP-ARCHITECTURE.md](./APP-ARCHITECTURE.md) - Frontend architecture
-- [SPEC-DRIVEN-WORKFLOW.md](./SPEC-DRIVEN-WORKFLOW.md) - Development workflow
+- [SPEC-DRIVEN-WORKFLOW.md](../process/SPEC-DRIVEN-WORKFLOW.md) - Development workflow
 
 ---
 

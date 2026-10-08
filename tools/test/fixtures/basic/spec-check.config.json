@@ -1,0 +1,10 @@
+{
+  "specs": "docs/specs",
+  "sources": ["src/**/*.ts"],
+  "tests": ["test/**/*.test.ts"],
+  "exempt": [{ "path": "src/index.ts", "reason": "barrel file, re-exports only" }],
+  "surfaces": [
+    { "name": "exported function", "files": ["src/**/*.ts"], "pattern": "^export function (\\w+)", "window": 3 }
+  ],
+  "baseline": "spec-check.baseline.json"
+}
