@@ -109,7 +109,7 @@ cp -r spec-development/ your-project/
 
 # Option B — git subtree
 git subtree add --prefix spec-development \
-  https://github.com/supertowers/spec-development master --squash
+  https://github.com/supertowers/spec-development main --squash
 ```
 
 Then:
